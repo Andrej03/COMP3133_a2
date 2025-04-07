@@ -1,0 +1,52 @@
+<!-- src/app/components/employee-list/employee-list.component.html -->
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">Employee List</h4>
+      <a routerLink="/employees/new" class="btn btn-light">Add Employee</a>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+      
+      <div *ngIf="!loading && !employees.length" class="alert alert-info">
+        No employees found.
+      </div>
+      
+      <div class="table-responsive" *ngIf="!loading && employees.length">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Position</th>
+              <th>Department</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of employees" [routerLink]="['/employees', employee.id]" style="cursor: pointer;">
+              <td>{{ employee.firstName }} {{ employee.lastName }}</td>
+              <td>{{ employee.email }}</td>
+              <td>{{ employee.position || 'N/A' }}</td>
+              <td>{{ employee.department || 'N/A' }}</td>
+              <td>
+                <button class="btn btn-sm btn-danger" (click)="deleteEmployee(employee.id, $event)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

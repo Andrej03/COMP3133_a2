@@ -1,0 +1,86 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Sign Up</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+            
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="text"
+                id="username"
+                formControlName="username"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && signupForm.get('username')?.invalid }"
+              />
+              <div *ngIf="submitted && signupForm.get('username')?.errors" class="invalid-feedback">
+                <div *ngIf="signupForm.get('username')?.errors?.['required']">Username is required</div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && signupForm.get('email')?.invalid }"
+              />
+              <div *ngIf="submitted && signupForm.get('email')?.errors" class="invalid-feedback">
+                <div *ngIf="signupForm.get('email')?.errors?.['required']">Email is required</div>
+                <div *ngIf="signupForm.get('email')?.errors?.['email']">Email must be a valid email address</div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && signupForm.get('password')?.invalid }"
+              />
+              <div *ngIf="submitted && signupForm.get('password')?.errors" class="invalid-feedback">
+                <div *ngIf="signupForm.get('password')?.errors?.['required']">Password is required</div>
+                <div *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && signupForm.get('confirmPassword')?.invalid }"
+              />
+              <div *ngIf="submitted && signupForm.get('confirmPassword')?.errors" class="invalid-feedback">
+                <div *ngIf="signupForm.get('confirmPassword')?.errors?.['required']">Confirm Password is required</div>
+                <div *ngIf="signupForm.get('confirmPassword')?.errors?.['passwordMismatch']">Passwords must match</div>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Sign Up
+              </button>
+            </div>
+            
+            <div class="mt-3 text-center">
+              <p>Already have an account? <a routerLink="/login">Login</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Login</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+            
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="text"
+                id="username"
+                formControlName="username"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && loginForm.get('username')?.invalid }"
+              />
+              <div *ngIf="submitted && loginForm.get('username')?.errors" class="invalid-feedback">
+                <div *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && loginForm.get('password')?.invalid }"
+              />
+              <div *ngIf="submitted && loginForm.get('password')?.errors" class="invalid-feedback">
+                <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</div>
+                <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</div>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Login
+              </button>
+            </div>
+            
+            <div class="mt-3 text-center">
+              <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
