@@ -1,40 +1,41 @@
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - '3000:3000'
     depends_on:
       - backend
-    networks:
-      - app-network
+    environment:
+      - ANGULAR_APP_BACKEND_URL=http://backend:4200
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "4000:4000"
-    environment:
-      - PORT=4000
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=password
-      - DB_NAME=employeeDB
-      - JWT_SECRET=your_jwt_secret
+      - '4000:4000'
     depends_on:
-      - db
-    networks:
-      - app-network
-
-  db:
-    image: postgres:13
+      - mongodb
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=employeeDB
-    ports:
-      - "5432:5432"
-    networks:
-      - app-network
+      - MONGO_URI=mongodb+srv://andrejbach05:Z9GOL4CyvSmJHHk8@cluster0.qslf7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
-networks:
-  app-network:
+  mongodb:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+  
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - '8081:8081'
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:
