@@ -1,15 +1,15 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
+<div class="signup-container">
+  <div>
+    <div>
       <div class="card">
-        <div class="card-header bg-primary text-white">
-          <h4 class="mb-0">Sign Up</h4>
+        <div class="title">
+          <h4>Sign Up</h4>
         </div>
         <div class="card-body">
           <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-            <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+            <div *ngIf="error">{{error}}</div>
             
-            <div class="mb-3">
+            <div>
               <label for="username" class="form-label">Username</label>
               <input
                 type="text"
@@ -23,7 +23,7 @@
               </div>
             </div>
             
-            <div class="mb-3">
+            <div>
               <label for="email" class="form-label">Email</label>
               <input
                 type="email"
@@ -38,7 +38,7 @@
               </div>
             </div>
             
-            <div class="mb-3">
+            <div>
               <label for="password" class="form-label">Password</label>
               <input
                 type="password"
@@ -53,7 +53,7 @@
               </div>
             </div>
             
-            <div class="mb-3">
+            <div>
               <label for="confirmPassword" class="form-label">Confirm Password</label>
               <input
                 type="password"
@@ -68,7 +68,7 @@
               </div>
             </div>
             
-            <div class="d-grid gap-2">
+            <div>
               <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
                 Sign Up

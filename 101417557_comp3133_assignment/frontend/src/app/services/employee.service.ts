@@ -1,10 +1,9 @@
-// src/app/services/employee.service.ts
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-// Use the same Employee interface as in your mock service
+// interface model
 export interface Employee {
   id: string;
   firstName: string;
@@ -49,7 +48,7 @@ export class EmployeeService {
     );
   }
 
-  // Fetch a single employee by id
+  // Fetch an employee by id
   getEmployeeById(id: string): Observable<Employee> {
     const GET_EMPLOYEE_QUERY = gql`
       query GetEmployee($id: ID!) {
@@ -75,7 +74,7 @@ export class EmployeeService {
     );
   }
 
-  // Create a new employee. Expect an employee object without the id.
+  // Create a new employee
   createEmployee(employee: Omit<Employee, 'id'>): Observable<Employee> {
     const CREATE_EMPLOYEE_MUTATION = gql`
       mutation CreateEmployee(
@@ -113,16 +112,14 @@ export class EmployeeService {
     `;
     return this.apollo.mutate<{ createEmployee: Employee }>({
       mutation: CREATE_EMPLOYEE_MUTATION,
-      // Ensure the variables match your GraphQL mutation’s expected parameters.
       variables: employee
     }).pipe(
       map(result => result.data!.createEmployee)
     );
   }
 
-  // Update an existing employee (using a partial update object)
+  // Update an existing employee
   updateEmployee(id: string, employee: Partial<Employee>): Observable<Employee> {
-    // Assumes a GraphQL input type "EmployeeUpdateInput" exists
     const UPDATE_EMPLOYEE_MUTATION = gql`
       mutation UpdateEmployee($id: ID!, $employee: EmployeeUpdateInput!) {
         updateEmployee(id: $id, employee: $employee) {
@@ -159,23 +156,6 @@ export class EmployeeService {
       variables: { id }
     }).pipe(
       map(result => result.data!.deleteEmployee)
-    );
-  }
-
-  // Upload a profile picture. Assumes your GraphQL server supports file uploads.
-  uploadProfilePicture(file: File): Observable<{ filename: string }> {
-    const UPLOAD_PROFILE_PICTURE_MUTATION = gql`
-      mutation UploadProfilePicture($file: Upload!) {
-        uploadProfilePicture(file: $file) {
-          filename
-        }
-      }
-    `;
-    return this.apollo.mutate<{ uploadProfilePicture: { filename: string } }>({
-      mutation: UPLOAD_PROFILE_PICTURE_MUTATION,
-      variables: { file }
-    }).pipe(
-      map(result => result.data!.uploadProfilePicture)
     );
   }
 }

@@ -52,7 +52,7 @@ export class LoginComponent {
 
     this.authService.login(username, password).subscribe({
       next: () => {
-        this.router.navigate(['/employees']);  // <-- Critical line to ensure navigation
+        this.router.navigate(['/employees']);
       },
       error: (err) => {
         this.error = err.error?.message || 'Login failed';

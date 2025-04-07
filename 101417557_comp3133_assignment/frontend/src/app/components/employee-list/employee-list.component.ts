@@ -1,4 +1,3 @@
-// src/app/components/employee-list/employee-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';

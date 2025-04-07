@@ -1,146 +1,110 @@
-<!-- src/app/components/employee-details/employee-details.component.html -->
-<div class="container mt-4">
-  <div class="card">
-    <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">{{ isNewEmployee ? 'Add New Employee' : 'Edit Employee' }}</h4>
+<div class="employee-details-wrapper">
+  <div class="employee-details-card">
+    <div class="employee-details-header">
+      <h4>{{ isNewEmployee ? 'Add New Employee' : 'Edit Employee' }}</h4>
     </div>
-    
-    <div class="card-body">
-      <div *ngIf="loading" class="text-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+
+    <div class="employee-details-body">
+      <div *ngIf="loading" class="loading-indicator">
+        <span>Loading...</span>
       </div>
-      
-      <div *ngIf="error" class="alert alert-danger">
+
+      <div *ngIf="error" class="error-message">
         {{ error }}
       </div>
-      
-      <form *ngIf="!loading" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-        <div class="row">
-          <!-- Profile Picture Upload -->
-          <div class="col-md-12 mb-4 text-center">
-            <div class="profile-picture-container">
-              <img [src]="getProfileImageUrl()" alt="Profile Picture" class="rounded-circle img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: cover;">
-              <div class="mb-3">
-                <input 
-                  type="file" 
-                  id="profilePicture" 
-                  class="form-control" 
-                  accept="image/*"
-                  (change)="onFileSelected($event)"
-                >
-                <small class="form-text text-muted">Upload a profile picture (JPG, PNG or GIF, max 1MB)</small>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="firstName" class="form-label">First Name</label>
-            <input 
-              type="text" 
-              id="firstName" 
-              formControlName="firstName" 
-              class="form-control"
-              [ngClass]="{'is-invalid': employeeForm.get('firstName')?.touched && employeeForm.get('firstName')?.invalid}"
+
+      <form *ngIf="!loading" [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              formControlName="firstName"
+              class="input-field"
+              [class.input-error]="employeeForm.get('firstName')?.touched && employeeForm.get('firstName')?.invalid"
             >
-            <div class="invalid-feedback" *ngIf="employeeForm.get('firstName')?.errors && employeeForm.get('firstName')?.touched">
+            <div class="validation-error" *ngIf="employeeForm.get('firstName')?.errors && employeeForm.get('firstName')?.touched">
               First name is required
             </div>
           </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="lastName" class="form-label">Last Name</label>
-            <input 
-              type="text" 
-              id="lastName" 
-              formControlName="lastName" 
-              class="form-control"
-              [ngClass]="{'is-invalid': employeeForm.get('lastName')?.touched && employeeForm.get('lastName')?.invalid}"
+
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              formControlName="lastName"
+              class="input-field"
+              [class.input-error]="employeeForm.get('lastName')?.touched && employeeForm.get('lastName')?.invalid"
             >
-            <div class="invalid-feedback" *ngIf="employeeForm.get('lastName')?.errors && employeeForm.get('lastName')?.touched">
+            <div class="validation-error" *ngIf="employeeForm.get('lastName')?.errors && employeeForm.get('lastName')?.touched">
               Last name is required
             </div>
           </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              formControlName="email" 
-              class="form-control"
-              [ngClass]="{'is-invalid': employeeForm.get('email')?.touched && employeeForm.get('email')?.invalid}"
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="input-field"
+              [class.input-error]="employeeForm.get('email')?.touched && employeeForm.get('email')?.invalid"
             >
-            <div class="invalid-feedback" *ngIf="employeeForm.get('email')?.errors?.['required'] && employeeForm.get('email')?.touched">
+            <div class="validation-error" *ngIf="employeeForm.get('email')?.errors?.['required'] && employeeForm.get('email')?.touched">
               Email is required
             </div>
-            <div class="invalid-feedback" *ngIf="employeeForm.get('email')?.errors?.['email'] && employeeForm.get('email')?.touched">
-              Please enter a valid email address
+            <div class="validation-error" *ngIf="employeeForm.get('email')?.errors?.['email'] && employeeForm.get('email')?.touched">
+              Please enter a valid email
             </div>
           </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="gender" class="form-label">Gender</label>
-            <select id="gender" formControlName="gender" class="form-select">
+
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" formControlName="gender" class="select-field">
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
             </select>
           </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="salary" class="form-label">Salary</label>
-            <input 
-              type="number" 
-              id="salary" 
-              formControlName="salary" 
-              class="form-control"
-              [ngClass]="{'is-invalid': employeeForm.get('salary')?.touched && employeeForm.get('salary')?.invalid}"
+
+          <div class="form-group">
+            <label for="salary">Salary</label>
+            <input
+              type="number"
+              id="salary"
+              formControlName="salary"
+              class="input-field"
+              [class.input-error]="employeeForm.get('salary')?.touched && employeeForm.get('salary')?.invalid"
             >
-            <div class="invalid-feedback" *ngIf="employeeForm.get('salary')?.errors?.['min'] && employeeForm.get('salary')?.touched">
+            <div class="validation-error" *ngIf="employeeForm.get('salary')?.errors?.['min'] && employeeForm.get('salary')?.touched">
               Salary cannot be negative
             </div>
           </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="position" class="form-label">Position</label>
-            <input 
-              type="text" 
-              id="position" 
-              formControlName="position" 
-              class="form-control"
-            >
+
+          <div class="form-group">
+            <label for="position">Position</label>
+            <input type="text" id="position" formControlName="position" class="input-field">
           </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="department" class="form-label">Department</label>
-            <input 
-              type="text" 
-              id="department" 
-              formControlName="department" 
-              class="form-control"
-            >
+
+          <div class="form-group">
+            <label for="department">Department</label>
+            <input type="text" id="department" formControlName="department" class="input-field">
           </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="joiningDate" class="form-label">Joining Date</label>
-            <input 
-              type="date" 
-              id="joiningDate" 
-              formControlName="joiningDate" 
-              class="form-control"
-            >
+
+          <div class="form-group">
+            <label for="joiningDate">Joining Date</label>
+            <input type="date" id="joiningDate" formControlName="joiningDate" class="input-field">
           </div>
         </div>
-        
-        <div class="mt-4">
-          <button type="submit" class="btn btn-primary me-2" [disabled]="saving">
-            <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
-            {{ isNewEmployee ? 'Create' : 'Update' }}
+
+        <div class="form-actions">
+          <button type="submit" class="submit-btn" [disabled]="saving">
+            {{ isNewEmployee ? 'Create Employee' : 'Update Employee' }}
           </button>
-          <a routerLink="/employees" class="btn btn-secondary">Cancel</a>
+          <a routerLink="/employees" class="cancel-btn">Cancel</a>
         </div>
       </form>
     </div>
