@@ -8,7 +8,18 @@ services:
     depends_on:
       - backend
     environment:
-      - ANGULAR_APP_BACKEND_URL=http://backend:4200
+      - ANGULAR_APP_BACKEND_URL=http://backend:5000
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongodb
+    environment:
+      - ANGULAR_APP_BACKEND_URL=http://backend:4000
 
   backend:
     build:
